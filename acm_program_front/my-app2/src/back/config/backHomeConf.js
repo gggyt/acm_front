@@ -14,6 +14,7 @@ import ShowCompetition from '../competition/manageCompetition';
 import PersonCompetition from '../competition/personCompetition';
 import UpdateCompetition from '../competition/updateCompetition';
 import ShowDayDuty from '../dayduty/manageDayduty';
+import ShowImpression from "../impression/manageImpression"
 
 
 const routes = [
@@ -69,6 +70,10 @@ const routes = [
   {
     path: "/userDetail/:id",
     main:  (props) => <UserDetail {...props}/>
+  },
+  {
+    path: "/manageImpression",
+    main: (props) => <ShowImpression />
   }
 ];
 export default routes;

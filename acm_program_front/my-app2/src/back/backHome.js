@@ -64,7 +64,7 @@ class Aside extends React.Component {
           </SubMenu>
           <SubMenu key="sub10" title={<span><Icon type="appstore" /><span>印象</span></span>}>
             <Menu.Item key="23">
-            <Link to="/manageDayDuty">管理印象</Link>
+            <Link to="/manageImpression">管理印象</Link>
             </Menu.Item>
           </SubMenu>
           <SubMenu key="sub7" title={<span><Icon type="appstore" /><span>值日</span></span>}>

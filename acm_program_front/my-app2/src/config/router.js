@@ -96,11 +96,7 @@ export const GetIndexInfo = localhost+"/info/getIndexInfo";
 export const GetLecComInfo = localhost+"/info/selectLecComInfo";
 export const GetNewAnnInfo = localhost+"/info/selectNewAnnoInfo";
 
-export const SelectProblem = localhost+"/problem/selectProblem";
-export const AddProblemUrl = localhost+"/problem/addProblem";
-export const AddAnsUrl = localhost+"/problem/addAns";
-export const DetailProblemUrl = localhost+"/problem/problemDetail";
-export const SelectReplyUrl = localhost+"/problem/selectReply";
-export const ReplyProblemUrl = localhost+"/problem/replyProblem";
-export const DeleteProblemUrl = localhost+"/problem/deleteProblem";
-export const UpdateProblemUrl = localhost+"/problem/updateProblem";
+export const SelectImpression = localhost+"/impression/selectUserImpression";
+export const UpdateImpressionUrl = localhost+"/impression/updateImpression";
+export const DetailImpression = localhost+"/impression/userImpression";
+export const DeleteImpressionUrl = localhost+"/impression/deleteImpression"

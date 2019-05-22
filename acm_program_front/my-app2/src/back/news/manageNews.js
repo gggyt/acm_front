@@ -81,7 +81,6 @@ class ShowTable extends React.Component{
       <Table columns={this.columns} dataSource={this.props.classAll} pagination={false} />
       
     </div>
-    
     );
   }
 }
