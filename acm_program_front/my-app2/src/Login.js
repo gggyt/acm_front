@@ -34,6 +34,9 @@ class Login extends React.Component{
 		this.submit = this.submit.bind(this);
 	}
 
+	componentWillMount() {
+		cookie.save('token', '');
+	}
 	usernameChange(e) {
 		this.setState({username: e.target.value})
 	}

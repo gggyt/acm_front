@@ -36,7 +36,7 @@ class PersonCompetition extends React.Component {
       key: 'studentId',
     },
        {
-        title: '创建时间',
+        title: '报名时间',
         dataIndex: 'createDate',
         key: 'createDate',
         

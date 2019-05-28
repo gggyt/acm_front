@@ -143,6 +143,7 @@ class AllAnnounce extends React.Component{
     }
     this.announceTitleChange = this.announceTitleChange.bind(this);
     this.buttonClick = this.buttonClick.bind(this);
+    this.getClass = this.getClass.bind(this);
     emitter.on('changeFirstText', this.changeText.bind(this))
   }
 
@@ -186,6 +187,7 @@ class AllAnnounce extends React.Component{
     this.getClass();
   }
   render() {
+    console.log(this.state.announceAll);
     return(
       <div style={{ flex: 1, padding: "10px" }}>
         <div className="title">

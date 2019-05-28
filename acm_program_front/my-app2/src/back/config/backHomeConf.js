@@ -15,6 +15,7 @@ import PersonCompetition from '../competition/personCompetition';
 import UpdateCompetition from '../competition/updateCompetition';
 import ShowDayDuty from '../dayduty/manageDayduty';
 import ShowImpression from "../impression/manageImpression"
+import DoughnutChart from "../backIndex";
 
 
 const routes = [
@@ -22,6 +23,10 @@ const routes = [
     path: "/",
     exact: true,
     main: () => <BackHome />
+  }, {
+    path: "/index",
+    exact: true,
+    main: () => <DoughnutChart />
   }, {
     path: "/addNews",
     main: () => <AddNews />

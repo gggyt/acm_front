@@ -25,8 +25,8 @@ class UpdateImpression extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      impressionTxt:'',
-      agreeNum:'',
+      impressionTxt: this.props.items.impressionTitle,
+      agreeNum: this.props.items.agreeNum,
       impressionId:''
     }
     this.impressionTxtChange = this.impressionTxtChange.bind(this);
@@ -48,33 +48,24 @@ class UpdateImpression extends React.Component {
   }
 
   handleDeleteCancel = (e) => {
-    console.log(e);
     this.setState({
       deleteVisible: false,
     });
   }
 
   handleOk = (e) => {
-    console.log(e);
     this.setState({
       visible: false,
     });
   }
 
   handleCancel = (e) => {
-    console.log(e);
     this.setState({
       visible: false,
     });
   }
 
-  componentWillMount(){
-    this.getClass();
-  }
-
   updateClass() {
-    console.log(this.state.impressionTxt);
-    console.log(this.state.agreeNum);
     fetch(UpdateImpressionUrl, {
       method: 'POST',
       headers : {
@@ -95,6 +86,7 @@ class UpdateImpression extends React.Component {
   }
 
   deleteClass() {
+    console.log("++++"+this.props.items.impressionId)
     fetch(DeleteImpressionUrl, {
       method: 'POST',
       headers : {
@@ -125,8 +117,8 @@ class UpdateImpression extends React.Component {
   render(){
     return (
       <span>
-        <a href="javascript:;" onClick={this.showModal}>修改</a>
-         <Modal
+        <a href="javascript:;" onClick={this.showModal}>修改</a> 
+        <Modal
           title="修改"
           visible={this.state.visible}
           onOk={this.updateClass}
@@ -144,17 +136,10 @@ class UpdateImpression extends React.Component {
             onChange={this.agreeNumChange} value={this.state.agreeNum}/>
           </div>
         </Modal>
-        &nbsp;|&nbsp;
-        <a href="javascript:;" onClick={this.showDeleteModal}>删除</a>
-         <Modal
-          title="删除"
-          visible={this.state.deleteVisible}
-          onOk={this.deleteClass}
-          onCancel={this.handleDeleteCancel}
-          okText="确认删除"
-          cancelText="取消删除"
-        >
-        </Modal>
+        <Divider type="vertical" />
+        <Popconfirm title="确定删除?" onConfirm={() => this.deleteClass()}>
+            <a  href="javascript:;">删除</a>
+        </Popconfirm>
       </span>
     )
   }
@@ -191,7 +176,7 @@ class ShowTable extends React.Component{
           ),
         }
       ];
-      return <Table columns={columns} dataSource={items.impressionList} pagination={false} />;
+      return <Table columns={columns} dataSource={items.impressionList} pagination={true} />;
     };
     this.columns = [
       {
@@ -209,13 +194,12 @@ class ShowTable extends React.Component{
   }
 
   render() {
-    console.log(this.props.all);
     return(
     <div>
       <Table columns={this.columns} 
       dataSource={this.props.all}
       expandedRowRender={items => this.subTable(items)}
-      pagination={false} />
+      pagination={true} />
       
     </div>
     
@@ -256,7 +240,6 @@ class AllImpression extends React.Component{
       body: '&pageNum='+this.state.nowPage+'&pageSize='+this.state.pageSize
     }).then( res=> res.json()).then(
       data => {
-        console.log(data);
         if (data.code==0) {
           if(data.resultBean.currentPage>0) {
             this.setState({nowPage: data.resultBean.currentPage});
@@ -278,7 +261,6 @@ class AllImpression extends React.Component{
     this.setState({competitionTitle: e.target.value}, ()=>this.getClass());
   }
   pageChange = (page) => {
-    console.log(page);
     this.setState({ nowPage: page }, () => this.getClass());
     
   }

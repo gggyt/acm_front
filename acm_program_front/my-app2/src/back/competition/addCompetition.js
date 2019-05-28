@@ -3,7 +3,7 @@ import React from 'react'
 
 import E from 'wangeditor'
 
-import { Menu, Icon, Button, Input, Checkbox, Row, Col, message } from 'antd';
+import { Menu, DatePicker, Button, Input, Checkbox, Row, Col, message } from 'antd';
 import cookie from 'react-cookies';
 import 'antd/lib/date-picker/style/css'; 
 import 'antd/dist/antd.css';
@@ -16,9 +16,8 @@ require('../../static/css/style.css');
 require('../../static/css/bootstrap.min.css');
 require('../../static/my/css/login.css');
 
-
-
 class AddCompetition extends React.Component {
+  state = { mode: 'date' };
   constructor(props, context) {
       super(props, context);
       this.state = {
@@ -26,11 +25,15 @@ class AddCompetition extends React.Component {
         editorContent: '',
         title: '',
         editorContentText:'',
+        beginTime: '',
+        untilTime: '',
       }
       this.titleChange = this.titleChange.bind(this);
       this.publish = this.publish.bind(this);
       this.saveCompetition = this.saveCompetition.bind(this);
       this.updateCompetition = this.updateCompetition.bind(this);
+      this.changeBeginTime = this.changeBeginTime.bind(this);
+      this.changeUntilTime = this.changeUntilTime.bind(this);
   }
   titleChange(e) {
     console.log(e.target.value);
@@ -63,7 +66,7 @@ class AddCompetition extends React.Component {
               'Authorization': cookie.load('token'),
               'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
             },
-            body: 'competitionTitle='+this.state.title+'&competitionBody='+encodeURI(this.state.editorContent)
+            body: 'competitionTitle='+this.state.title+'&competitionBody='+encodeURI(this.state.editorContent)+'&competitionBeginTime='+this.state.beginTime
         }).then(res => res.json()).then(
             data => {
                 if(data.code==0) {
@@ -108,6 +111,28 @@ class AddCompetition extends React.Component {
             }
         )
   }
+
+  handleOpenChange = open => {
+    if (open) {
+      this.setState({ mode: 'date' });
+    }
+  };
+
+  handlePanelChange = (value, mode) => {
+    this.setState({ mode });
+  };
+
+  checkOk() {
+  }
+
+  changeBeginTime(data, dataString) {
+    this.setState({beginTime: dataString});
+  }
+
+  changeUntilTime(data, dataString) {
+    this.setState({untilTime: dataString});
+    console.log(this.state.untilTime);
+  }
   render() {
     return (
       <div>
@@ -134,6 +159,24 @@ class AddCompetition extends React.Component {
           <Button type="primary" onClick={this.publish}>发布</Button>
         </div>
         
+      <div>
+
+        <span> 
+        <div>
+        <p style={{marginTop: 50}}>校赛开始时间:</p>
+        <DatePicker
+          format="YYYY-MM-DD HH:mm:ss"
+          mode={this.state.mode}
+          showTime
+          placeholder="选择校赛开始时间"
+          onOpenChange={this.handleOpenChange}
+          onPanelChange={this.handlePanelChange}
+          onChange={this.changeBeginTime}
+          onOk={this.checkOk}
+        />
+        </div>
+        </span>
+      </div>
       </div>
 
       </div>

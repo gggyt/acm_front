@@ -1,21 +1,79 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { Menu, Icon, Button } from 'antd';
+import { Menu, Icon, Avatar, message, Dropdown } from 'antd';
 import DatePicker from 'antd/lib/date-picker'; 
 import 'antd/lib/date-picker/style/css'; 
 import 'antd/dist/antd.css';
 import './static/my/css/home.css';
 import routes from './config/backHomeConf';
+import {GetUserInfo} from '../config/router.js'
+import cookie from 'react-cookies';
 
 const SubMenu = Menu.SubMenu;
 
 
 class Aside extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      userinfo: "",
+    }
+    this.getUserInfoFromSession = this.getUserInfoFromSession.bind(this);
+  }
+
+  getUserInfoFromSession() {
+    fetch(GetUserInfo, {
+      method: 'POST',
+      headers : {
+        'Authorization': cookie.load('token'),
+        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+      },
+    }).then(res => res.json()).then(
+      data => {
+        if (data.code==0) {
+          this.setState({userinfo: data.resultBean});
+        } else {
+          message.error(data.msg);
+        }
+      }
+    )
+  }
+
+  componentWillMount() {
+    this.getUserInfoFromSession();
+  }
 
   render() {
+    const menu = (
+      <Menu>
+        <Menu.Item>
+          <a target="_blank" rel="noopener noreferrer" href="#">
+        <span style={{fontSize:"20px"}}>   {this.state.userinfo.username}</span> 
+          </a>
+        </Menu.Item>
+        <Menu.Item size={64}>
+          <a target="_blank" rel="noopener noreferrer" href="http://localhost:3000/Login">
+            <span style={{fontSize:"20px"}}>   注销</span> 
+          </a>
+        </Menu.Item>
+      </Menu>
+    );
+
     return (
     <Router basename="Aside">
     <div>
+      <div align='right'>
+      <div>
+      <Avatar shape="square" size={40} icon="user" src={this.state.userinfo.image}/>
+      <Dropdown overlay={menu}>
+        <a className="ant-dropdown-link" href="#">
+        <span style={{fontSize:"20px"}}>   {this.state.userinfo.username}</span> 
+        <Icon type="down" />
+        </a>
+      </Dropdown>
+      </div>
+    </div>
       <div  className="boxB">
       <div className="left" >
         <Menu
@@ -24,7 +82,7 @@ class Aside extends React.Component {
           theme="dark"
         >
           <Menu.Item key="1">
-            <Link to="/manageUser"><Icon type="pie-chart" />
+            <Link to="/index"><Icon type="pie-chart" />
             <span>首页</span></Link>
           </Menu.Item>
           <Menu.Item key="2">

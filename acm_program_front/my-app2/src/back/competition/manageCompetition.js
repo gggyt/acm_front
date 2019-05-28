@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Menu, Icon, Button, Input, Checkbox, Row, Col, Pagination,  Table, Divider, Tag,Alert ,Popconfirm, message } from 'antd';
+import { Menu, Button, Input, Checkbox, Row, Col, Pagination,  Table, Divider, Tag,Alert ,Popconfirm, message } from 'antd';
 import cookie from 'react-cookies';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import 'antd/lib/date-picker/style/css'; 
@@ -53,9 +53,13 @@ class ShowTable extends React.Component{
       dataIndex: 'createUser',
       key: 'createUser',
     }, {
-      title: '创建时间',
+      title: '比赛时间',
       dataIndex: 'createDate',
       key: 'createDate',
+    }, {
+      title: '创建时间',
+      dataIndex: 'updateDate',
+      key: 'updateDate',
     },  {
       title: '操作',
       key: 'action',
@@ -210,7 +214,7 @@ class AllAnnounce extends React.Component{
     return(
       <div style={{ flex: 1, padding: "10px" }}>
         <div className="title">
-          <h3>公告</h3>
+          <h3>校赛</h3>
         </div>
         <div className="searchF">
          <div className="example-input">

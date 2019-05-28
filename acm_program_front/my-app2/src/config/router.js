@@ -29,6 +29,11 @@ export const UserInfo = localhost+"/userLogin/userInfo";
 export const UploadUserImg = localhost+"/userLogin/updateUserImage";
 export const UploadUserImgByMy = localhost+"/userLogin/updateUserImageByMy";
 export const UpdateUserInfo = localhost+"/userLogin/updateUserInfo";
+export const DeleteUserInfo = localhost+"/userLogin/deleteUser";
+export const UpdatePassword = localhost+"/userLogin/updatePassword";
+export const ChangeUserAuth = localhost+"/userLogin/changeUserAuth";
+
+
 
 export const UploadImg = localhost+"/uploadImg";
 export const UploadImg1 = localhost+"/uploadImg1";
