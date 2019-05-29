@@ -10,6 +10,7 @@ import {SelectCompetitionUrl} from '../../config/router.js';
 import {DeleteCompetitionUrl} from '../../config/router.js';
 import {DoneCompetitionUrl} from '../../config/router.js';
 import {EventEmitter2} from 'eventemitter2'
+import {ExportCompetition} from '../../config/router.js';
 import Announcement from '../announce/announcement';
 import UpdateAnnouncement from '../announce/updateAnnouncement';
 var emitter = new EventEmitter2()
@@ -65,14 +66,16 @@ class ShowTable extends React.Component{
       key: 'action',
       render: (text, record) => (
         <span>
-        <a href="javascript:;"><Link to={'/personCompetition/'+record.competitionId}>查看报名用户</Link></a>
+          <a href="javascript:;"><Link to={'/personCompetition/'+record.competitionId}>查看报名用户</Link></a>     
+          <Divider type="vertical" />     
+          <a  href={'http://localhost:9999/competition/export?competitionId='+record.competitionId}>导出报名名单</a>
           <Divider type="vertical" />
           <a href="javascript:;"><Link to={'/detailCompetition/'+record.competitionId}>修改</Link></a>
           <Divider type="vertical" />
           <Popconfirm title="确定删除?" onConfirm={() => this.handleDelete(record.competitionId)}>
             <a  href="javascript:;">删除</a>
           </Popconfirm>
-           </span>
+        </span>
        ),
     },{
       title: '截至操作',
@@ -80,8 +83,8 @@ class ShowTable extends React.Component{
       render: (text, record) => (
         <span>
           {
-            record.isDone==1?<a href="javascript:;"><Tag color="#108ee9" onClick={()=>this.doneCompetition(record.competitionId)}>截至报名</Tag></a>:
-            <Tag color="#f50">已结束</Tag>
+            record.isDone==1?<a href="javascript:;"><Tag color="#108ee9" onClick={()=>this.doneCompetition(record.competitionId, 0)}>截至报名</Tag></a>:
+            <a href="javascript:;"><Tag color="#f50" onClick={()=>this.doneCompetition(record.competitionId, 1)}>恢复报名</Tag></a>
           }
           
           </span>
@@ -89,14 +92,36 @@ class ShowTable extends React.Component{
     }
     ];
   }
-  doneCompetition = (key) => {
+
+  handleExport = (id) => {
+    fetch(ExportCompetition,{   //Fetch方法
+      method: 'POST',
+      headers: {
+        'Authorization': cookie.load('token'),
+        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+      },
+     body: 'competitionId='+id
+
+    }).then(res => res.json()).then(
+        data => {
+            if(data.code==0) {
+              emitter.emit('changeFirstText', 'Second');
+              message.success('导出成功');
+            }
+            else {
+              message.error(data.msg);
+            }
+        }
+    )  
+  }
+  doneCompetition = (key, mean) => {
     fetch(DoneCompetitionUrl,{   //Fetch方法
             method: 'POST',
             headers: {
               'Authorization': cookie.load('token'),
               'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
             },
-           body: 'competitionId='+key
+           body: 'competitionId='+key+"&mean="+mean
 
         }).then(res => res.json()).then(
             data => {

@@ -12,7 +12,12 @@ import {AddAnnounce} from '../../config/router.js';
 import {UpdateAnnounce} from '../../config/router.js';
 import {AnnounceDetail} from '../../config/router.js';
 
+function getString(s) {
+  s=s.replace(/\+/g, "%2B");
+  s=s.replace(/&/g, "%26");
 
+  return s;
+}
 
 class UpdateAnnouncement extends React.Component{
 	constructor(props) {
@@ -95,7 +100,7 @@ class UpdateAnnouncement extends React.Component{
               'Authorization': cookie.load('token'),
               'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
             },
-            body: 'announceTitle='+this.state.announceTitle+'&announceBody='+encodeURI(this.state.editorContent)+'&isPublic='+this.state.isPublic
+            body: 'announceTitle='+this.state.announceTitle+'&announceBody='+encodeURI(getString(this.state.editorContent))+'&isPublic='+this.state.isPublic
 
         }).then(res => res.json()).then(
             data => {
@@ -126,7 +131,7 @@ class UpdateAnnouncement extends React.Component{
               'Authorization': cookie.load('token'),
               'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
             },
-            body: 'announceId='+this.state.announceId+'&announceTitle='+this.state.announceTitle+'&announceBody='+encodeURI(this.state.editorContent)+'&isPublic='+this.state.isPublic
+            body: 'announceId='+this.state.announceId+'&announceTitle='+this.state.announceTitle+'&announceBody='+encodeURI(getString(this.state.editorContent))+'&isPublic='+this.state.isPublic
 
         }).then(res => res.json()).then(
             data => {
@@ -190,7 +195,7 @@ componentDidMount() {
     // 使用 onchange 函数监听内容的变化，并实时更新到 state 中
     editor.customConfig.onchange = html => {
       this.setState({
-        editorContent: html
+        editorContent: getString(html)
       })
     }
     editor.create()

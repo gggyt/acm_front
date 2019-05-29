@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Menu, Icon, Button, Input, Checkbox, Row, Col, Pagination,  Table, Divider, Tag,Alert ,Popconfirm, message, Modal } from 'antd';
+import { Collapse, Icon, Button, Input, Checkbox, Row, Col, Pagination,  Table, Divider, Tag,Alert ,Popconfirm, message, Modal } from 'antd';
 import cookie from 'react-cookies';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import 'antd/lib/date-picker/style/css'; 
@@ -16,6 +16,7 @@ import {DoneCompetitionUrl} from '../../config/router.js';
 import {EventEmitter2} from 'eventemitter2'
 var emitter = new EventEmitter2()
 var emitter2 = new EventEmitter2()
+const Panel = Collapse.Panel;
 
 const id = -1;
 
@@ -149,42 +150,33 @@ class ShowTable extends React.Component{
   constructor(props) {
     super(props);
     this.tmp = this.tmp.bind(this);
-    this.subTable = (items) => {
-      const columns = [
-        {
-          title: "印象",
-          dataIndex: 'impressionTitle',
-          key: 'impressionTitle',
-        },
-        {
-          title: "点赞数",
-          dataIndex: 'agreeNum',
-          key: 'agreeNum',
-        },
-        {
-          title: "添加时间",
-          dataIndex: 'createDate',
-          key: 'createDate',
-        },
-        {
-          title: '操作',
-          key: 'action',
-          render: (items) => (
-            <span>
-              <UpdateImpression items={items}/>
-            </span>
-          ),
-        }
-      ];
-      return <Table columns={columns} dataSource={items.impressionList} pagination={true} />;
-    };
     this.columns = [
       {
-        title: '用户',
-        dataIndex: 'username',
-        key: 'username',
+        title: "印象",
+        dataIndex: 'impressionTitle',
+        key: 'impressionTitle',
+      },
+      {
+        title: "点赞数",
+        dataIndex: 'agreeNum',
+        key: 'agreeNum',
+      },
+      {
+        title: "添加时间",
+        dataIndex: 'createDate',
+        key: 'createDate',
+      },
+      {
+        title: '操作',
+        key: 'action',
+        render: (items) => (
+          <span>
+            <UpdateImpression items={items}/>
+          </span>
+        ),
       }
     ];
+    console.log(this.props.all);
   };
   
   tmp = (key) => {
@@ -192,17 +184,11 @@ class ShowTable extends React.Component{
     emitter2.emit('changeShow', key);
 
   }
-
   render() {
     return(
     <div>
-      <Table columns={this.columns} 
-      dataSource={this.props.all}
-      expandedRowRender={items => this.subTable(items)}
-      pagination={true} />
-      
+      <Table columns={this.columns} dataSource={this.props.all} pagination={true} />
     </div>
-    
     );
   }
 }
@@ -273,8 +259,20 @@ class AllImpression extends React.Component{
         <div className="title">
           <h3>印象</h3>
         </div>
+        <div>
+        <Collapse defaultActiveKey={['0']}>
+          {
+            this.state.all.map(item => {
+              return(
+                <Panel header={item.username} key={item.userId}>
+                  <ShowTable all={item.impressionList}/> 
+                </Panel>
+              )
+            })
+          }
+        </Collapse>
+        </div>
         <div className="search"> 
-         <ShowTable all={this.state.all}/> 
         </div>
         
       </div>

@@ -16,6 +16,12 @@ require('../../static/css/style.css');
 require('../../static/css/bootstrap.min.css');
 require('../../static/my/css/login.css');
 
+function getString(s) {
+  s=s.replace(/\+/g, "%2B");
+  s=s.replace(/&/g, "%26");
+
+  return s;
+}
 
 class CheckClass extends React.Component {
   constructor(props) {
@@ -131,7 +137,7 @@ class AddNewss extends React.Component {
               'Authorization': cookie.load('token'),
               'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
             },
-            body: 'newsTitle='+this.state.title+'&newsBody='+encodeURI(this.state.editorContent)+'&isPublic='+this.state.isPublic+'&classType='+this.state.classifies
+            body: 'newsTitle='+this.state.title+'&newsBody='+encodeURI(getString(this.state.editorContent))+'&isPublic='+this.state.isPublic+'&classType='+this.state.classifies
 
         }).then(res => res.json()).then(
             data => {
@@ -162,7 +168,7 @@ class AddNewss extends React.Component {
               'Authorization': cookie.load('token'),
               'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
             },
-            body: 'newsId='+this.state.newsId+'&newsTitle='+this.state.title+'&newsBody='+encodeURI(this.state.editorContent)+'&isPublic='+this.state.isPublic+'&classType='+this.state.classifies
+            body: 'newsId='+this.state.newsId+'&newsTitle='+this.state.title+'&newsBody='+encodeURI(getString(this.state.editorContent))+'&isPublic='+this.state.isPublic+'&classType='+this.state.classifies
 
         }).then(res => res.json()).then(
             data => {
@@ -252,7 +258,7 @@ editor.customConfig.menus = [
     // 使用 onchange 函数监听内容的变化，并实时更新到 state 中
     editor.customConfig.onchange = html => {
       this.setState({
-        editorContent: html
+        editorContent: getString(html)
       })
       //alert(this.state.editorContent);
     }

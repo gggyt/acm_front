@@ -10,7 +10,12 @@ import '../static/my/css/news.css';
 import '../static/my/css/classfication.css';
 import {AddAnnounce} from '../../config/router.js';
 import {UpdateAnnounce} from '../../config/router.js';
+function getString(s) {
+  s=s.replace(/\+/g, "%2B");
+  s=s.replace(/&/g, "%26");
 
+  return s;
+}
 class Announcement extends React.Component{
 	constructor(props, context) {
       super(props, context);
@@ -60,7 +65,7 @@ class Announcement extends React.Component{
               'Authorization': cookie.load('token'),
               'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
             },
-            body: 'announceTitle='+this.state.announceTitle+'&announceBody='+encodeURI(this.state.editorContent)+'&isPublic='+this.state.isPublic
+            body: 'announceTitle='+this.state.announceTitle+'&announceBody='+encodeURI(getString(this.state.editorContent))+'&isPublic='+this.state.isPublic
 
         }).then(res => res.json()).then(
             data => {
@@ -91,7 +96,7 @@ class Announcement extends React.Component{
               'Authorization': cookie.load('token'),
               'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
             },
-            body: 'announceId='+this.state.announceId+'&announceTitle='+this.state.announceTitle+'&announceBody='+encodeURI(this.state.editorContent)+'&isPublic='+this.state.isPublic
+            body: 'announceId='+this.state.announceId+'&announceTitle='+this.state.announceTitle+'&announceBody='+encodeURI(getString(this.state.editorContent))+'&isPublic='+this.state.isPublic
 
         }).then(res => res.json()).then(
             data => {
@@ -154,7 +159,7 @@ componentDidMount() {
     editor.customConfig.onchange = html => {
       //window.alert(editor.txt.text());
       this.setState({
-        editorContent: html
+        editorContent: getString(html)
       })
       console.log(this.state.editorContent);
       console.log(editor.txt.text());

@@ -16,6 +16,13 @@ require('../../static/css/style.css');
 require('../../static/css/bootstrap.min.css');
 require('../../static/my/css/login.css');
 
+function getString(s) {
+  s=s.replace(/\+/g, "%2B");
+  s=s.replace(/&/g, "%26");
+
+  return s;
+}
+
 class AddCompetition extends React.Component {
   state = { mode: 'date' };
   constructor(props, context) {
@@ -66,7 +73,7 @@ class AddCompetition extends React.Component {
               'Authorization': cookie.load('token'),
               'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
             },
-            body: 'competitionTitle='+this.state.title+'&competitionBody='+encodeURI(this.state.editorContent)+'&competitionBeginTime='+this.state.beginTime
+            body: 'competitionTitle='+this.state.title+'&competitionBody='+encodeURI(getString(this.state.editorContent))+'&competitionBeginTime='+this.state.beginTime
         }).then(res => res.json()).then(
             data => {
                 if(data.code==0) {
@@ -96,7 +103,7 @@ class AddCompetition extends React.Component {
               'Authorization': cookie.load('token'),
               'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
             },
-            body: 'competitionId='+this.state.competitionId+'&competitionTitle='+this.state.title+'&competitionBody='+encodeURI(this.state.editorContent)
+            body: 'competitionId='+this.state.competitionId+'&competitionTitle='+this.state.title+'&competitionBody='+encodeURI(getString(this.state.editorContent))
 
         }).then(res => res.json()).then(
             data => {
@@ -197,7 +204,7 @@ class AddCompetition extends React.Component {
     // 使用 onchange 函数监听内容的变化，并实时更新到 state 中
     editor.customConfig.onchange = html => {
       this.setState({
-        editorContent: html
+        editorContent: getString(html)
       })
       this.setState({editorContentText: editor.txt.text()})
     }

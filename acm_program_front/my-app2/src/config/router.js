@@ -76,6 +76,8 @@ export const DetailCompetitionUrl = localhost+"/competition/detailCompetition";
 export const JoinCompetitionUrl = localhost+"/competition/joinCompetition";
 export const DoneCompetitionUrl = localhost+"/competition/doneCompetition";
 export const PersonCompetitionUrl = localhost+"/competition/personCompetition";
+export const ExportCompetition = localhost+"/competition/export";
+
 
 export const AddLectureUrl = localhost+"/lecture/addLecture";
 export const UpdateLectureUrl = localhost+"/lecture/updateLecture";
@@ -99,7 +101,7 @@ export const WLoginUrl = localhost+"/wInfo";
 
 export const GetIndexInfo = localhost+"/info/getIndexInfo";
 export const GetLecComInfo = localhost+"/info/selectLecComInfo";
-export const GetNewAnnInfo = localhost+"/info/selectNewAnnoInfo";
+export const GetNewAnnInfo = localhost+"/info/selectNewsAndAnnoun";
 
 export const SelectImpression = localhost+"/impression/selectUserImpression";
 export const UpdateImpressionUrl = localhost+"/impression/updateImpression";

@@ -19,6 +19,13 @@ function onChange(checkedValues) {
   console.log('checked = ', checkedValues);
 }
 
+function getString(s) {
+  s=s.replace(/\+/g, "%2B");
+  s=s.replace(/&/g, "%26");
+
+  return s;
+}
+
 class UpdateNews extends React.Component {
   constructor(props, context) {
       super(props, context);
@@ -113,7 +120,7 @@ class UpdateNews extends React.Component {
               'Authorization': cookie.load('token'),
               'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
             },
-            body: 'newsId='+this.state.newsId+'&newsTitle='+this.state.newsTitle+'&newsBody='+encodeURI(this.state.editorContent)+'&isPublic='+this.state.isPublic
+            body: 'newsId='+this.state.newsId+'&newsTitle='+this.state.newsTitle+'&newsBody='+encodeURI(getString(this.state.editorContent))+'&isPublic='+this.state.isPublic
 
         }).then(res => res.json()).then(
             data => {
@@ -182,7 +189,7 @@ class UpdateNews extends React.Component {
     // 使用 onchange 函数监听内容的变化，并实时更新到 state 中
     editor.customConfig.onchange = html => {
       this.setState({
-        editorContent: html
+        editorContent: getString(html)
       })
      // alert(this.state.editorContent);
     }
