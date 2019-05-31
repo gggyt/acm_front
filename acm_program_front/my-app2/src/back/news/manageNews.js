@@ -113,7 +113,7 @@ class AllNews extends React.Component{
         'Authorization': cookie.load('token'),
         'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
       },
-      body: 'newsTitle='+this.state.newsTitle+'&pageNum='+this.state.nowPage
+      body: 'newsTitle='+this.state.newsTitle+'&pageNum='+this.state.nowPage+'&pageSize='+this.state.pageSize
     }).then( res=> res.json()).then(
       data => {
         if (data.code==0) {

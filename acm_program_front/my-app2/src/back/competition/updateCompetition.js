@@ -3,7 +3,8 @@ import React from 'react'
 
 import E from 'wangeditor'
 
-import { Menu, Icon, Button, Input, Checkbox, Row, Col, message } from 'antd';
+import { Menu, Icon, Button, Input, DatePicker, Row, Col, message } from 'antd';
+import moment from 'moment';
 import cookie from 'react-cookies';
 import 'antd/lib/date-picker/style/css'; 
 import 'antd/dist/antd.css';
@@ -25,6 +26,7 @@ function getString(s) {
 }
 
 class UpdateCompetition extends React.Component {
+  state = { mode: 'date' };
   constructor(props, context) {
       super(props, context);
       this.state = {
@@ -33,10 +35,14 @@ class UpdateCompetition extends React.Component {
         title: '',
         editorContentText:'',
         editor:'',
+        beginTime: '',
+        untilTime: '',
       }
       this.titleChange = this.titleChange.bind(this);
       this.publish = this.publish.bind(this);
       this.updateCompetition = this.updateCompetition.bind(this);
+      this.changeBeginTime = this.changeBeginTime.bind(this);
+      this.changeUntilTime = this.changeUntilTime.bind(this);
   }
   componentWillMount(){
     this.getData();
@@ -58,6 +64,7 @@ class UpdateCompetition extends React.Component {
         if (data.code==0) {
           this.setState({title: data.resultBean.competitionTitle});
           this.setState({editorContent: this.state.editor.txt.html(data.resultBean.competitionBody)});
+          this.setState({beginTime: data.resultBean.createDate})
         } else {
           message.error(data.msg)
         }
@@ -74,14 +81,32 @@ class UpdateCompetition extends React.Component {
     
       this.updateCompetition()
   }
-  
+  changeBeginTime(data, dataString) {
+    this.setState({beginTime: dataString});
+  }
+
+  changeUntilTime(data, dataString) {
+    this.setState({untilTime: dataString});
+    console.log(this.state.untilTime);
+  }
+
+  handleOpenChange = open => {
+    if (open) {
+      this.setState({ mode: 'date' });
+    }
+  };
+
+  handlePanelChange = (value, mode) => {
+    this.setState({ mode });
+  };
+
   updateCompetition() {
     if (this.state.title.length==0) {
-      alert('新闻标题不为空');
+      alert('校赛标题不能为空');
       return;
     }
     if (this.state.editorContentText.length==0) {
-      alert('新闻内容不为空');
+      alert('校赛内容不能为空');
       return;
     }
     fetch(UpdateCompetitionUrl,{   //Fetch方法
@@ -90,7 +115,7 @@ class UpdateCompetition extends React.Component {
               'Authorization': cookie.load('token'),
               'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
             },
-            body: 'competitionId='+this.props.match.params.id+'&competitionTitle='+this.state.title+'&competitionBody='+encodeURI(getString(this.state.editorContent))
+            body: 'competitionId='+this.props.match.params.id+'&competitionTitle='+this.state.title+'&competitionBody='+encodeURI(getString(this.state.editorContent))+'&competitionBeginTime='+this.state.beginTime
 
         }).then(res => res.json()).then(
             data => {
@@ -130,7 +155,21 @@ class UpdateCompetition extends React.Component {
           <hr/>
           <Button type="primary" onClick={this.publish}>发布</Button>
         </div>
-        
+        <span> 
+        <div>
+        <p style={{marginTop: 50}}>校赛开始时间:</p>
+        <DatePicker
+          format="YYYY-MM-DD HH:mm:ss"
+          mode={this.state.mode}
+          showTime
+          placeholder="选择校赛开始时间"
+          onOpenChange={this.handleOpenChange}
+          onPanelChange={this.handlePanelChange}
+          onChange={this.changeBeginTime}
+          onOk={this.checkOk}
+        />
+        </div>
+        </span>
       </div>
 
       </div>

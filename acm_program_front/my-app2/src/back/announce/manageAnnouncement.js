@@ -160,7 +160,7 @@ class AllAnnounce extends React.Component{
         'Authorization': cookie.load('token'),
         'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
       },
-      body: 'announceTitle='+this.state.announceTitle+'&pageNum='+this.state.nowPage
+      body: 'announceTitle='+this.state.announceTitle+'&pageNum='+this.state.nowPage+'&pageSize='+this.state.pageSize
     }).then( res=> res.json()).then(
       data => {
         if (data.code==0) {

@@ -187,7 +187,7 @@ class ShowTable extends React.Component{
   render() {
     return(
     <div>
-      <Table columns={this.columns} dataSource={this.props.all} pagination={true} />
+      <Table columns={this.columns} dataSource={this.props.all} pagination={false} />
     </div>
     );
   }
@@ -232,12 +232,12 @@ class AllImpression extends React.Component{
           }else {
             this.setState({nowPage: 1});
           }
-          this.setState({totalPage: data.resultBean.totalItems/data.resultBean.pageSize});
+          this.setState({totalPage: data.resultBean.totalPage});
           this.setState({all: data.resultBean.items});
         } else {
           this.setState({nowPage: 1});
           this.setState({totalPage: 1});
-          this.setState({all: ''});
+          this.setState({all: []});
           message.error(data.msg);
         }
       }
@@ -272,9 +272,9 @@ class AllImpression extends React.Component{
           }
         </Collapse>
         </div>
-        <div className="search"> 
+        <div className="searchPage"> 
+        <Pagination size="small" simple onChange={this.pageChange} pageSize={this.state.pageSize} total={this.state.totalPage*this.state.pageSize} defaultCurrent={this.state.nowPage} showQuickJumper />
         </div>
-        
       </div>
     );
   }

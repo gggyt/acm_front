@@ -76,13 +76,14 @@ class Login extends React.Component{
             data => {
 				//window.alert('code'+data.code);
                 if(data.code==0) {
-					cookie.save('token', data.resultBean.token, 1000);
+					cookie.save('token', data.resultBean.token);
                 	//window.alert('验证成功，欢迎登录');
                 	console.log(cookie.load('token'));
-                	this.props.history.push('/Aside/manageUser');
+                	this.props.history.push('/Aside/index');
                 }
                 else {
                 	//cookie.remove('token');
+					cookie.save('token', '');
                 	this.setState({fail: true});
                 	this.setState({failReason: data.msg});
                 	return false;

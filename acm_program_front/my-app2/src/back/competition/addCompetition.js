@@ -103,7 +103,7 @@ class AddCompetition extends React.Component {
               'Authorization': cookie.load('token'),
               'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
             },
-            body: 'competitionId='+this.state.competitionId+'&competitionTitle='+this.state.title+'&competitionBody='+encodeURI(getString(this.state.editorContent))
+            body: 'competitionId='+this.state.competitionId+'&competitionTitle='+this.state.title+'&competitionBody='+encodeURI(getString(this.state.editorContent))+'&competitionBeginTime='+this.state.beginTime
 
         }).then(res => res.json()).then(
             data => {
@@ -145,7 +145,7 @@ class AddCompetition extends React.Component {
       <div>
       <div className="col-md-9">
         <div className="title">
-          <h2>添加校赛</h2>
+          <h2 >添加校赛</h2>
         </div>
         <div className="inputTitle">
           <Input size="small" placeholder="校赛名称" style={{height:30}} onChange={this.titleChange}/>

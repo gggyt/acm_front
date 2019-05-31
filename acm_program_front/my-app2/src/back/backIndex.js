@@ -3,7 +3,7 @@ import React from 'react'
 
 import E from 'wangeditor'
 
-import { Timeline, Icon, Card, Tag, Divider, Row, Col, message, Popover, Button, Tooltip } from 'antd';
+import { Timeline, Icon, Card, Tag, Divider, Row, Col, message, Button, Badge, Tabs } from 'antd';
 import cookie from 'react-cookies';
 import 'antd/lib/date-picker/style/css'; 
 import 'antd/dist/antd.css';
@@ -20,6 +20,8 @@ require('../static/css/style.css');
 require('../static/css/bootstrap.min.css');
 require('../static/my/css/login.css');
 require('./static/my/css/home.css');
+
+const { TabPane } = Tabs;
 
 
 class DoughnutChart extends React.Component{
@@ -181,73 +183,47 @@ class AllNum extends React.Component{
     return(
       <div style={{margin:'20px', padding:'20px'}}>
         <Row gutter={16}>
-          <Col span={8} >
-          <Card title="用户人数" style={{ width: 300 }}>
+          <Col span={6} >
+          <Card title="用户人数" style={{  }}>
               <span><Icon type="user" style={{ fontSize: '20px' }}/>&nbsp;&nbsp;</span>
               <p style={{fontSize:'25px'}}><strong>{this.state.allUserNum}</strong></p>
               <p style={{fontSize:'25px'}}><strong></strong></p>
           </Card>
           </Col>
-          <Col span={8}>
-          <Card title="今日值日人" style={{ width: 300 }}>
+          <Col span={10}>
+          <Card title="印象最赞榜" style={{  }}>
+
+            <Tabs defaultActiveKey="1">
+            {
+              this.state.impression.map(item => {
+                return(
+                  <TabPane tab={item.username} key={item.userId}>
+                  {
+                        item.impressionList.map(im => {
+                          return(
+                              <Button color='red'> 
+                                {im.impressionTitle} <Icon type="bulb" />
+                                <Badge count={im.agreeNum} style={{ backgroundColor: '#52c41a' }}/>
+                              </Button>
+                          )
+                        })
+                  }
+                  </TabPane>
+                )
+              })
+            }
+            </Tabs>
+          </Card>
+          </Col>          
+          <Col span={6}>
+          <Card title="今日值日人" style={{ }}>
               <span><Icon type="contacts" style={{ fontSize: '20px' }}/>&nbsp;&nbsp;</span>
               <p style={{fontSize:'25px'}}><strong>{this.state.nowDuty}</strong></p>
               <p style={{fontSize:'25px'}}><strong></strong></p>
           </Card>
           </Col>
 
-          <Col span={8}>
-          <Card title="印象最赞排行榜" style={{ width: 300 }}>
-            {
-              this.state.impression.map(item => {
-                return(
-                  <div>
-                  <Popover content={content} title="Title">
-                    <Button type="primary">{item.username}</Button>
-                  </Popover>
-                    {/* <p style={{fontSize:'25px'}}><strong></strong></p> */}
-                    {
-                      item.impressionList.map(im => {
-                        return(
-                          <div>
-                            <Tag color='red'> {im.impressionTitle} -> {im.agreeNum} </Tag>
-                          </div>
-                        )
-                      })
-                    }
-                  </div>
-                )
-              })
-            }
-          </Card>
-              {/* <span><Icon typthis.state.nowDuty}e="" style={{ fontSize: '20px' }}/>&nbsp;&nbsp;</span>
-              {
-                this.state.impression.map(item => {
-                  return(
-                    <div>
-                      <h3>{item.username}</h3>
-                      {
-                        item.impressionList.map(im => {
-                          return(
-                            <div>
-                              <span> 印象：{im.impressionTitle} 点赞数：{im.agreeNum} </span>
-                            </div>
-                          )
-                        })
-                      }
-                    </div>
-                  )
-                })
-              } */}
-              {/* <p style={{fontSize:'25px'}}><strong>{this.state.allInvitationNum}</strong></p> */}
-            
-          </Col>
-          {/* <Col span={5} className="statis">
-            <div style={{margin:'30px', backgroundColor: '#ffffff'}}>
-              <span><Icon type="team" style={{ fontSize: '20px' }}/>&nbsp;&nbsp;友链总数</span>
-              <p style={{fontSize:'25px'}}><strong>{this.state.allFriendNum}</strong></p>
-            </div>
-          </Col> */}
+
         </Row>
       </div>
     );
